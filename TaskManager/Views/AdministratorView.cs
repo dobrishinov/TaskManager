@@ -6,7 +6,11 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    class AdministratorView
+    public class AdministratorView
     {
+        public void Show()
+        {
+            Console.WriteLine("Hello Admin");
+        }
     }
 }

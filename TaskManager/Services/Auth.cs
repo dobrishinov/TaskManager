@@ -1,12 +1,17 @@
 ﻿namespace TaskManager.Services
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using TaskManager.Repositories;
+    using TaskManager.Entites;
 
-    class Auth
+    public static class Auth
     {
+        public static UserEntity LoggedUser { get; private set; }
+
+        public static void AuthenticateUser(string username, string password)
+        {
+            UsersRepository usersRepository = new UsersRepository("users.txt");
+            Auth.LoggedUser = usersRepository.GetByUsernameAndPassword(username, password);
+        }
     }
 }
