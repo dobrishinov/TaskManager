@@ -12,10 +12,10 @@
     {
         public void Show()
         {
-            UserManagmentEnum choice = RenderMenu();
+            UserManagementEnum choice = RenderMenu();
         }
 
-        private UserManagmentEnum RenderMenu()
+        private UserManagementEnum RenderMenu()
         {
             while (true)
             {
@@ -37,27 +37,27 @@
                 {
                     case "G":
                         {
-                            return UserManagmentEnum.Select;
+                            return UserManagementEnum.Select;
                         }
                     case "V":
                         {
-                            return UserManagmentEnum.View;
+                            return UserManagementEnum.View;
                         }
                     case "A":
                         {
-                            return UserManagmentEnum.Insert;
+                            return UserManagementEnum.Insert;
                         }
                     case "E":
                         {
-                            return UserManagmentEnum.Update;
+                            return UserManagementEnum.Update;
                         }
                     case "D":
                         {
-                            return UserManagmentEnum.Delete;
+                            return UserManagementEnum.Delete;
                         }
                     case "X":
                         {
-                            return UserManagmentEnum.Exit;
+                            return UserManagementEnum.Exit;
                         }
                     default:
                         {

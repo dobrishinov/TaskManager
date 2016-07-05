@@ -23,7 +23,8 @@
                             }
                         case AdministratorNum.TasksManagement:
                             {
-                                Console.WriteLine("Hello Tasks");
+                                TasksManagementView taskManagementView = new TasksManagementView();
+                                taskManagementView.Show();
                                 break;
                             }
                         case AdministratorNum.Exit:
