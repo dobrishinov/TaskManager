@@ -1,16 +1,83 @@
 ﻿namespace TaskManager.Views
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using TaskManager.Services;
+
 
     public class AdministratorView
     {
         public void Show()
         {
-            Console.WriteLine("Hello Admin");
+           while (true)
+            {
+                AdministratorNum choice = RenderMenu();
+                try
+                {
+                    switch (choice)
+                    {
+                        case AdministratorNum.UsersManagement:
+                            {
+                                UsersManagementView userManagementView = new UsersManagementView();
+                                userManagementView.Show();
+                                break;
+                            }
+                        case AdministratorNum.TasksManagement:
+                            {
+                                Console.WriteLine("Hello Tasks");
+                                break;
+                            }
+                        case AdministratorNum.Exit:
+                            {
+                                return;
+                            }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.Clear();
+                    Console.WriteLine(ex.Message);
+                    Console.ReadKey(true);
+                }
+            }
+        }
+
+        private AdministratorNum RenderMenu()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("##############|Administration|##############");
+                Console.ResetColor();
+                Console.WriteLine("Manage [U]sers");
+                Console.WriteLine("Manage [T]asks");
+                Console.WriteLine("E[x]it");
+
+                string choice = Console.ReadLine();
+                switch (choice.ToUpper())
+                {
+                    case "U":
+                        {
+                            return AdministratorNum.UsersManagement;
+                        }
+                    case "T":
+                        {
+                            return AdministratorNum.TasksManagement;
+                        }
+                    case "X":
+                        {
+                            return AdministratorNum.Exit;
+                        }
+                    default:
+                        {
+                            Console.BackgroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Invalid choice.");
+                            Console.ResetColor();
+                            Console.ReadKey(true);
+                            break;
+                        }
+                }
+            }
         }
     }
 }
