@@ -10,6 +10,11 @@
     {
         static void Main(string[] args)
         {
+            List<string> asd = new List<string>();
+            asd.Add("ivan");
+            asd.Add("asen");
+            asd.Add("ivan");
+            Console.WriteLine(string.Join(",", asd));
         }
     }
 }

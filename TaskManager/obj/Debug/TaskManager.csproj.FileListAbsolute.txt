@@ -1,0 +1,6 @@
+c:\users\dobrishinov\documents\visual studio 2015\Projects\TaskManager\TaskManager\obj\Debug\TaskManager.csprojResolveAssemblyReference.cache
+c:\users\dobrishinov\documents\visual studio 2015\Projects\TaskManager\TaskManager\bin\Debug\TaskManager.exe.config
+c:\users\dobrishinov\documents\visual studio 2015\Projects\TaskManager\TaskManager\bin\Debug\TaskManager.exe
+c:\users\dobrishinov\documents\visual studio 2015\Projects\TaskManager\TaskManager\bin\Debug\TaskManager.pdb
+c:\users\dobrishinov\documents\visual studio 2015\Projects\TaskManager\TaskManager\obj\Debug\TaskManager.exe
+c:\users\dobrishinov\documents\visual studio 2015\Projects\TaskManager\TaskManager\obj\Debug\TaskManager.pdb
