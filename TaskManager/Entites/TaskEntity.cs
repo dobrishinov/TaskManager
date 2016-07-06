@@ -14,9 +14,9 @@
         public string Content { get; set; }
         public string Creator { get; set; }
         public string Status { get; set; }
+        public int Time { get; set; }
         public DateTime LastChange { get; set; }
         public DateTime CreateTime { get; set; }
-        public DateTime Time { get; set; }
 
     }
 }
