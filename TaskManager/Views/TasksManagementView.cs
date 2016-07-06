@@ -230,22 +230,29 @@
 
             Console.Write("Add Task Title: ");
             task.Title = Console.ReadLine();
+
             Console.Write("Add Task Content: ");
             task.Content = Console.ReadLine();
-            Console.Write("Creator Name: ");
-            task.Creator = Console.ReadLine();
+
+            task.Creator = Auth.LoggedUser.Username;
+
             Console.Write("Enter ID to Responsible User: ");
             task.ResponsibleUsers = int.Parse(Console.ReadLine());
+
             Console.Write("Task Status(Working/Idle/Done): ");
             task.Status = Console.ReadLine();
+
             Console.Write("Working time in Hours: ");
             task.Time = Convert.ToInt32(Console.ReadLine());
+
             task.CreateTime = DateTime.Now;
+
             task.LastChange = DateTime.Now;
+
             task.CreatorId = Auth.LoggedUser.Id;
 
-            TasksRepository usersControllers = new TasksRepository("tasks.txt");
-            usersControllers.Save(task);
+            TasksRepository tasksControllers = new TasksRepository("tasks.txt");
+            tasksControllers.Save(task);
 
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Task saved successfully!");
@@ -282,7 +289,7 @@
             Console.WriteLine("##########################################");
 
             Console.WriteLine("Old task title: " + task.Title);
-            Console.Write("New Title:");
+            Console.Write("New Title: ");
             string title = Console.ReadLine();
 
             Console.WriteLine("Old task content: " + task.Content);
