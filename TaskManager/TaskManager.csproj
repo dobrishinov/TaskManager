@@ -47,11 +47,13 @@
     <Compile Include="Entites\BaseEntity.cs" />
     <Compile Include="Entites\CommentEntity.cs" />
     <Compile Include="Entites\TaskEntity.cs" />
+    <Compile Include="Entites\TimeEntity.cs" />
     <Compile Include="Entites\UserEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\CommentsRepository.cs" />
     <Compile Include="Repositories\TasksRepository.cs" />
+    <Compile Include="Repositories\TimeRepository.cs" />
     <Compile Include="Repositories\UsersRepository.cs" />
     <Compile Include="Services\Auth.cs" />
     <Compile Include="Services\MenuNum.cs" />

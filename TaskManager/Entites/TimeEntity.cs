@@ -6,11 +6,12 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class CommentEntity
+    public class TimeEntity : BaseEntity
     {
         public int UserId { get; set; }
         public int TaskId { get; set; }
-        public string Comment { get; set; }
-        public DateTime CreateDate { get; set; }
+        public int Hours { get; set; }
+        public DateTime TimeTaken { get; set; }
+
     }
 }

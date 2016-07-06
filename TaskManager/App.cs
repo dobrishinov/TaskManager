@@ -24,7 +24,8 @@
             }
             else
             {
-                Console.WriteLine("Not admin");
+                TasksManagementView tasksManagementView = new TasksManagementView();
+                tasksManagementView.Show();
             }
         }
     }

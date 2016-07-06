@@ -21,7 +21,7 @@
                 Console.Clear();
 
                 TasksRepository tasksController = new TasksRepository("tasks.txt");
-                List<TaskEntity> tasks = tasksController.GetAll(Auth.LoggedUser.Id);
+                List<TaskEntity> tasks = tasksController.GetAllByCreatorId(Auth.LoggedUser.Id);
 
                 Console.BackgroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("###############|Tasks manager|##############");
