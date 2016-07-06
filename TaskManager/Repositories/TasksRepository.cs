@@ -21,9 +21,9 @@
             sw.WriteLine(item.Content);
             sw.WriteLine(item.Creator);
             sw.WriteLine(item.Status);
+            sw.WriteLine(item.Time);
             sw.WriteLine(item.LastChange);
             sw.WriteLine(item.CreateTime);
-            sw.WriteLine(item.Time);
         }
 
         protected override void ReadItemFromStream(StreamReader sr, TaskEntity item)

@@ -32,17 +32,17 @@
                             }
                         case TaskManagementEnum.Insert:
                             {
-                                //Add();
+                                Add();
                                 break;
                             }
                         case TaskManagementEnum.Update:
                             {
-                                //Update();
+                                Update();
                                 break;
                             }
                         case TaskManagementEnum.Delete:
                             {
-                                //Delete();
+                                Delete();
                                 break;
                             }
                         case TaskManagementEnum.Exit:
@@ -193,7 +193,7 @@
             //
             if (task == null || task.ResponsibleUsers != Auth.LoggedUser.Id)
             {
-                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.BackgroundColor = ConsoleColor.Red;
                 Console.WriteLine("Task not found. Press Key To Return!");
                 Console.ResetColor();
                 Console.ReadKey(true);
@@ -215,6 +215,141 @@
             Console.WriteLine("Task found. Press Key To Return!");
             Console.ResetColor();
 
+            Console.ReadKey(true);
+        }
+
+        private void Add()
+        {
+            Console.Clear();
+
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("###############|Add New Task|################");
+            Console.ResetColor();
+
+            TaskEntity task = new TaskEntity();
+
+            Console.Write("Add Task Title: ");
+            task.Title = Console.ReadLine();
+            Console.Write("Add Task Content: ");
+            task.Content = Console.ReadLine();
+            Console.Write("Creator Name: ");
+            task.Creator = Console.ReadLine();
+            Console.Write("Enter ID to Responsible User: ");
+            task.ResponsibleUsers = int.Parse(Console.ReadLine());
+            Console.Write("Task Status(Working/Idle/Done): ");
+            task.Status = Console.ReadLine();
+            Console.Write("Working time in Hours: ");
+            task.Time = Convert.ToInt32(Console.ReadLine());
+            task.CreateTime = DateTime.Now;
+            task.LastChange = DateTime.Now;
+            task.CreatorId = Auth.LoggedUser.Id;
+
+            TasksRepository usersControllers = new TasksRepository("tasks.txt");
+            usersControllers.Save(task);
+
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("Task saved successfully!");
+            Console.ResetColor();
+            Console.ReadKey(true);
+        }
+
+        private void Update()
+        {
+            Console.Clear();
+
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("###############|Edit Task|################");
+            Console.ResetColor();
+
+            Console.Write("Please enter task ID: ");
+            int taskId = Convert.ToInt32(Console.ReadLine());
+
+            TasksRepository tasksRepository = new TasksRepository("tasks.txt");
+            TaskEntity task = tasksRepository.GetById(taskId);
+
+            if (task == null)
+            {
+                Console.Clear();
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.WriteLine("Task not found. Press Key To Return!");
+                Console.ResetColor();
+                Console.ReadKey(true);
+                return;
+            }
+
+            Console.WriteLine("Editing task (" + task.Title + ") with ID: " + task.Id);
+
+            Console.WriteLine("##########################################");
+
+            Console.WriteLine("Old task title: " + task.Title);
+            Console.Write("New Title:");
+            string title = Console.ReadLine();
+
+            Console.WriteLine("Old task content: " + task.Content);
+            Console.Write("New Content: ");
+            string content = Console.ReadLine();
+
+            Console.WriteLine("##########################################");
+
+            Console.WriteLine("Status: " + task.Status);
+            Console.Write("New Status(Working/Idle/Done): ");
+            string status = Console.ReadLine();
+
+            Console.WriteLine("##########################################");
+
+            Console.WriteLine("All working time in Hours: " + task.Time);
+            Console.Write("Enter new time in Hours: ");
+            int time = int.Parse(Console.ReadLine());
+
+            task.LastChange = DateTime.Now;
+
+
+            if (!string.IsNullOrEmpty(title))
+                task.Title = title;
+            if (!string.IsNullOrEmpty(content))
+                task.Content = content;
+            if (!string.IsNullOrEmpty(status))
+                task.Status = status;
+            //TODO maybe fix WorkingTime
+            if (task.Time != time)
+                task.Time = time;
+
+            tasksRepository.Save(task);
+
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("Task saved successfully. Press Key To Return!");
+            Console.ResetColor();
+            Console.ReadKey(true);
+        }
+
+
+        private void Delete()
+        {
+            TasksRepository tasksRepository = new TasksRepository("tasks.txt");
+
+            Console.Clear();
+
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("#########|Delete Task By ID|############");
+            Console.ResetColor();
+
+            Console.Write("Please enter task ID: ");
+            int taskId = Convert.ToInt32(Console.ReadLine());
+
+            TaskEntity task = tasksRepository.GetById(taskId);
+            if (task == null || task.CreatorId != Auth.LoggedUser.Id)
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.WriteLine("Task not found. Press Key To Return!");
+                Console.ResetColor();
+            }
+            else
+            {
+                tasksRepository.Delete(task);
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("Task deleted successfully!");
+                Console.ResetColor();
+            }
             Console.ReadKey(true);
         }
 
