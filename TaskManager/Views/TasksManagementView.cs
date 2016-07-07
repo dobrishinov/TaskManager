@@ -85,7 +85,7 @@
                     Console.WriteLine("Last Change Date: " + task.LastChange);
                     Console.WriteLine("############################################");
                     Console.WriteLine("Task status: " + task.Status);
-                    Console.WriteLine("Task working time: " + task.Time);
+                    Console.WriteLine("Task working time: " + task.EstimatedTime);
                     Console.WriteLine("Task response by: " + task.ResponsibleUsers);
 
                     Console.BackgroundColor = ConsoleColor.DarkCyan;
@@ -165,7 +165,7 @@
                 Console.WriteLine("Last Change Date: " + task.LastChange);
                 Console.WriteLine("############################################");
                 Console.WriteLine("Task status: " + task.Status);
-                Console.WriteLine("Task working time: " + task.Time);
+                Console.WriteLine("Task working time: " + task.EstimatedTime);
                 Console.WriteLine("Task response by: " + task.ResponsibleUsers);
 
                 Console.BackgroundColor = ConsoleColor.DarkCyan;
@@ -208,7 +208,7 @@
             Console.WriteLine("Last Change Date: " + task.LastChange);
             Console.WriteLine("############################################");
             Console.WriteLine("Task status: " + task.Status);
-            Console.WriteLine("Task working time: " + task.Time);
+            Console.WriteLine("Task working time: " + task.EstimatedTime);
             Console.WriteLine("Task response by: " + task.ResponsibleUsers);
 
             Console.BackgroundColor = ConsoleColor.DarkGreen;
@@ -243,7 +243,7 @@
             task.Status = Console.ReadLine();
 
             Console.Write("Working time in Hours: ");
-            task.Time = Convert.ToInt32(Console.ReadLine());
+            task.EstimatedTime = Convert.ToInt32(Console.ReadLine());
 
             task.CreateTime = DateTime.Now;
 
@@ -304,7 +304,7 @@
 
             Console.WriteLine("##########################################");
 
-            Console.WriteLine("All working time in Hours: " + task.Time);
+            Console.WriteLine("All working time in Hours: " + task.EstimatedTime);
             Console.Write("Enter new time in Hours: ");
             int time = int.Parse(Console.ReadLine());
 
@@ -318,8 +318,8 @@
             if (!string.IsNullOrEmpty(status))
                 task.Status = status;
             //TODO maybe fix WorkingTime
-            if (task.Time != time)
-                task.Time = time;
+            if (task.EstimatedTime != time)
+                task.EstimatedTime = time;
 
             tasksRepository.Save(task);
 
