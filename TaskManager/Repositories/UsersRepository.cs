@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using TaskManager.Entites;
 
-    public class UsersRepository : BaseController<UserEntity>
+    public class UsersRepository : BaseRepository<UserEntity>
     {
         public UsersRepository(string pathToFile)
             : base(pathToFile)

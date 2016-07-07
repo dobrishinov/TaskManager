@@ -5,11 +5,11 @@
     using System.Collections.Generic;
     using System.IO;
 
-    public abstract class BaseController<T> where T : BaseEntity, new()
+    public abstract class BaseRepository<T> where T : BaseEntity, new()
     {
         private readonly string pathToFile;
 
-        public BaseController(string pathToFile)
+        public BaseRepository(string pathToFile)
         {
             this.pathToFile = pathToFile;
         }

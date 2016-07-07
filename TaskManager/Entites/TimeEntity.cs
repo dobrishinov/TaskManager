@@ -10,7 +10,7 @@
     {
         public int TaskId { get;  set;}
         public int EstimatedTime { get; set; }
-        public string LastChange { get; set; }
-        public string CreateTime { get; set; }
+        public DateTime LastChange { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 }

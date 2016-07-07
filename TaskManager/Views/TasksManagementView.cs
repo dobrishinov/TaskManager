@@ -268,6 +268,7 @@
 
             TaskEntity task = new TaskEntity();
             TimeEntity time = new TimeEntity();
+            CommentEntity comment = new CommentEntity();
 
             Console.Write("Add Task Title: ");
             task.Title = Console.ReadLine();
@@ -283,25 +284,37 @@
             Console.Write("Task Status(Working/Idle/Done): ");
             task.Status = Console.ReadLine();
 
+            Console.Write("Add Comment: ");
+            comment.Comment = Console.ReadLine();
+
             Console.Write("Working time in Hours: ");
             time.EstimatedTime = Convert.ToInt32(Console.ReadLine());
 
-            string date = DateTime.Now.ToString("dd/MM/yyyy");
+            //DateTime date = DateTime.Now;
             //string timeFormat = date.ToString("dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture);
 
-            //string.Format("{0}-{1}-{2}", date.Day, date.Month, date.Year);
+            //string.Format("{0}-{1}-{2} {3}:{4}:{5}", date.Day, date.Month, date.Year, date.Hour, date.Minute, date.Second);
 
-            time.CreateTime = date;
+            //time.CreateTime = Convert.ToDateTime(timeFormat);
 
-            time.LastChange = date;
+            //time.LastChange = Convert.ToDateTime(timeFormat);
+
+            time.CreateTime = DateTime.Now;
+
+            time.LastChange = DateTime.Now;
+
+            comment.CreateDate = DateTime.Now;
 
             task.CreatorId = Auth.LoggedUser.Id;
 
-            TasksRepository tasksControllers = new TasksRepository("tasks.txt");
-            tasksControllers.Save(task);
+            TasksRepository tasksRepository = new TasksRepository("tasks.txt");
+            tasksRepository.Save(task);
 
             TimeRepository timeRepository = new TimeRepository("time.txt");
             timeRepository.Save(time);
+
+            CommentsRepository commentsRepository = new CommentsRepository("comments.txt");
+            commentsRepository.Save(comment);
 
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Task saved successfully!");

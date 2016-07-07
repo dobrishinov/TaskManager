@@ -6,7 +6,7 @@
     using System.IO;
     using System.Collections.Generic;
 
-    class TasksRepository : BaseController<TaskEntity>
+    class TasksRepository : BaseRepository<TaskEntity>
     {
         public TasksRepository(string pathToFile)
             : base(pathToFile)
