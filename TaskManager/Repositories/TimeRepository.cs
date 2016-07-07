@@ -10,7 +10,7 @@
     using TaskManager.Entites;
     using TaskManager.Services;
 
-    class TimeRepository : BaseController<TimeEntity>
+    class TimeRepository : BaseRepository<TimeEntity>
     {
         public TimeRepository(string pathToFile)
             : base(pathToFile)
@@ -19,16 +19,18 @@
 
         protected override void WriteItemToStream(StreamWriter sw, TimeEntity item)
         {
+            sw.WriteLine(item.TaskId);
             sw.WriteLine(item.EstimatedTime);
-            sw.WriteLine(item.LastChange.ToString("dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture));
-            sw.WriteLine(item.CreateTime.ToString("dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture));
+            sw.WriteLine(item.LastChange);
+            sw.WriteLine(item.CreateTime);
         }
 
         protected override void ReadItemFromStream(StreamReader sr, TimeEntity item)
         {
+             item.TaskId=Convert.ToInt32(sr.ReadLine());
             item.EstimatedTime = Convert.ToInt32(sr.ReadLine());
-            item.LastChange = DateTime.ParseExact(sr.ReadLine(), "dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture);
-            item.CreateTime = DateTime.ParseExact(sr.ReadLine(), "dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture);
+            item.LastChange = Convert.ToDateTime(sr.ReadLine());
+            item.CreateTime = Convert.ToDateTime(sr.ReadLine());
         }
 
         public virtual List<TimeEntity> GetAll(int taskId)
@@ -44,7 +46,6 @@
                 {
                     TimeEntity item = new TimeEntity();
                     item.Id = Convert.ToInt32(sr.ReadLine());
-                    item.TaskId = Convert.ToInt32(sr.ReadLine());
                     ReadItemFromStream(sr, item);
                     if (taskId == item.TaskId)
                     {

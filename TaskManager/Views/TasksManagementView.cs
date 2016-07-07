@@ -284,9 +284,7 @@
             Console.Write("Task Status(Working/Idle/Done): ");
             task.Status = Console.ReadLine();
 
-            Console.Write("Add Comment: ");
-            comment.Comment = Console.ReadLine();
-
+            
             Console.Write("Working time in Hours: ");
             time.EstimatedTime = Convert.ToInt32(Console.ReadLine());
 
@@ -298,12 +296,17 @@
             //time.CreateTime = Convert.ToDateTime(timeFormat);
 
             //time.LastChange = Convert.ToDateTime(timeFormat);
-
+            
             time.CreateTime = DateTime.Now;
 
             time.LastChange = DateTime.Now;
 
+            Console.Write("Add Comment: ");
+            comment.Comment = Console.ReadLine();
+            comment.CreatorId = Auth.LoggedUser.Id;
+            comment.TaskId= task.Id;
             comment.CreateDate = DateTime.Now;
+
 
             task.CreatorId = Auth.LoggedUser.Id;
 
@@ -312,6 +315,8 @@
 
             TimeRepository timeRepository = new TimeRepository("time.txt");
             timeRepository.Save(time);
+
+            comment.TaskId = task.Id;
 
             CommentsRepository commentsRepository = new CommentsRepository("comments.txt");
             commentsRepository.Save(comment);
