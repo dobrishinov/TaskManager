@@ -14,9 +14,5 @@
         public string Content { get; set; }
         public string Creator { get; set; }
         public string Status { get; set; }
-        public int EstimatedTime { get; set; }
-        public DateTime LastChange { get; set; }
-        public DateTime CreateTime { get; set; }
-
     }
 }

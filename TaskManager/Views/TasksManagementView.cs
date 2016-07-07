@@ -5,7 +5,7 @@
     using TaskManager.Services;
     using System;
     using System.Collections.Generic;
-
+    using System.Globalization;
     public class TasksManagementView : TaskEntity
     {
         public void Show()
@@ -37,7 +37,7 @@
                             }
                         case TaskManagementEnum.Update:
                             {
-                                Update();
+                               // Update();
                                 break;
                             }
                         case TaskManagementEnum.Delete:
@@ -67,9 +67,10 @@
             {
                 Console.Clear();
 
-                TasksRepository tasksController = new TasksRepository("tasks.txt");
-                List<TaskEntity> tasks = tasksController.GetAll(Auth.LoggedUser.Id);
+                TasksRepository tasksRepository = new TasksRepository("tasks.txt");
+                List<TaskEntity> tasks = tasksRepository.GetAll(Auth.LoggedUser.Id);
 
+                TimeRepository timeRepository = new TimeRepository("time.txt");
 
                 Console.BackgroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("###############|Tasks manager|##############");
@@ -81,17 +82,35 @@
                     Console.WriteLine("Task Title: " + task.Title);
                     Console.WriteLine("Tasks Content: " + task.Content);
                     Console.WriteLine("Task create by: " + task.Creator);
-                    Console.WriteLine("Creation Date: " + task.CreateTime);
-                    Console.WriteLine("Last Change Date: " + task.LastChange);
+                    //Console.WriteLine("Creation Date: " + time.CreateTime);
+                    //Console.WriteLine("Last Change Date: " + time.LastChange);
                     Console.WriteLine("############################################");
                     Console.WriteLine("Task status: " + task.Status);
-                    Console.WriteLine("Task working time: " + task.EstimatedTime);
+                    //Console.WriteLine("Task working time: " + time.EstimatedTime);
                     Console.WriteLine("Task response by: " + task.ResponsibleUsers);
+
+                    List<TimeEntity> times = timeRepository.GetAll(task.Id);
+                    foreach (var time in times)
+                    {
+
+                        Console.WriteLine("Creation Date: " + time.CreateTime);
+                        Console.WriteLine("Last Change Date: " + time.LastChange);
+                        Console.WriteLine("############################################");
+
+                        Console.WriteLine("Task working time: " + time.EstimatedTime);
+
+
+                        Console.BackgroundColor = ConsoleColor.DarkCyan;
+                        Console.WriteLine("############################################");
+                        Console.ResetColor();
+                    }
 
                     Console.BackgroundColor = ConsoleColor.DarkCyan;
                     Console.WriteLine("############################################");
                     Console.ResetColor();
                 }
+
+                
 
                 Console.BackgroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("#############|Available Options|############");
@@ -151,6 +170,9 @@
             TasksRepository tasksRepository = new TasksRepository("tasks.txt");
             List<TaskEntity> tasks = tasksRepository.GetAll(Auth.LoggedUser.Id);
 
+            TimeRepository timeRepository = new TimeRepository("time.txt");
+            List<TimeEntity> times = timeRepository.GetAll(Auth.LoggedUser.Id);
+
             Console.BackgroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("#################|Get ALL|##################");
             Console.ResetColor();
@@ -161,12 +183,27 @@
                 Console.WriteLine("Task Title: " + task.Title);
                 Console.WriteLine("Tasks Content: " + task.Content);
                 Console.WriteLine("Task create by: " + task.Creator);
-                Console.WriteLine("Creation Date: " + task.CreateTime);
-                Console.WriteLine("Last Change Date: " + task.LastChange);
+                //Console.WriteLine("Creation Date: " + task.CreateTime);
+                //Console.WriteLine("Last Change Date: " + task.LastChange);
                 Console.WriteLine("############################################");
                 Console.WriteLine("Task status: " + task.Status);
-                Console.WriteLine("Task working time: " + task.EstimatedTime);
+                //Console.WriteLine("Task working time: " + task.EstimatedTime);
                 Console.WriteLine("Task response by: " + task.ResponsibleUsers);
+
+                Console.BackgroundColor = ConsoleColor.DarkCyan;
+                Console.WriteLine("############################################");
+                Console.ResetColor();
+            }
+
+            foreach (var time in times)
+            {
+
+                Console.WriteLine("Creation Date: " + time.CreateTime);
+                Console.WriteLine("Last Change Date: " + time.LastChange);
+                Console.WriteLine("############################################");
+
+                Console.WriteLine("Task working time: " + time.EstimatedTime);
+
 
                 Console.BackgroundColor = ConsoleColor.DarkCyan;
                 Console.WriteLine("############################################");
@@ -190,6 +227,9 @@
             TasksRepository tasksControllers = new TasksRepository("tasks.txt");
 
             TaskEntity task = tasksControllers.GetById(taskId);
+
+            TimeRepository timeRepository = new TimeRepository("time.txt");
+            List<TimeEntity> times = timeRepository.GetAll(Auth.LoggedUser.Id);
             //
             if (task == null || task.ResponsibleUsers != Auth.LoggedUser.Id)
             {
@@ -204,11 +244,11 @@
             Console.WriteLine("Task Title: " + task.Title);
             Console.WriteLine("Tasks Content: " + task.Content);
             Console.WriteLine("Task create by: " + task.Creator);
-            Console.WriteLine("Creation Date: " + task.CreateTime);
-            Console.WriteLine("Last Change Date: " + task.LastChange);
+            //Console.WriteLine("Creation Date: " + task.CreateTime);
+            //Console.WriteLine("Last Change Date: " + task.LastChange);
             Console.WriteLine("############################################");
             Console.WriteLine("Task status: " + task.Status);
-            Console.WriteLine("Task working time: " + task.EstimatedTime);
+            //Console.WriteLine("Task working time: " + task.EstimatedTime);
             Console.WriteLine("Task response by: " + task.ResponsibleUsers);
 
             Console.BackgroundColor = ConsoleColor.DarkGreen;
@@ -227,6 +267,7 @@
             Console.ResetColor();
 
             TaskEntity task = new TaskEntity();
+            TimeEntity time = new TimeEntity();
 
             Console.Write("Add Task Title: ");
             task.Title = Console.ReadLine();
@@ -243,16 +284,24 @@
             task.Status = Console.ReadLine();
 
             Console.Write("Working time in Hours: ");
-            task.EstimatedTime = Convert.ToInt32(Console.ReadLine());
+            time.EstimatedTime = Convert.ToInt32(Console.ReadLine());
 
-            task.CreateTime = DateTime.Now;
+            string date = DateTime.Now.ToString("dd/MM/yyyy");
+            //string timeFormat = date.ToString("dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture);
 
-            task.LastChange = DateTime.Now;
+            //string.Format("{0}-{1}-{2}", date.Day, date.Month, date.Year);
+
+            time.CreateTime = date;
+
+            time.LastChange = date;
 
             task.CreatorId = Auth.LoggedUser.Id;
 
             TasksRepository tasksControllers = new TasksRepository("tasks.txt");
             tasksControllers.Save(task);
+
+            TimeRepository timeRepository = new TimeRepository("time.txt");
+            timeRepository.Save(time);
 
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Task saved successfully!");
@@ -260,74 +309,74 @@
             Console.ReadKey(true);
         }
 
-        private void Update()
-        {
-            Console.Clear();
+        //private void Update()
+        //{
+        //    Console.Clear();
 
-            Console.BackgroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("###############|Edit Task|################");
-            Console.ResetColor();
+        //    Console.BackgroundColor = ConsoleColor.DarkRed;
+        //    Console.WriteLine("###############|Edit Task|################");
+        //    Console.ResetColor();
 
-            Console.Write("Please enter task ID: ");
-            int taskId = Convert.ToInt32(Console.ReadLine());
+        //    Console.Write("Please enter task ID: ");
+        //    int taskId = Convert.ToInt32(Console.ReadLine());
 
-            TasksRepository tasksRepository = new TasksRepository("tasks.txt");
-            TaskEntity task = tasksRepository.GetById(taskId);
+        //    TasksRepository tasksRepository = new TasksRepository("tasks.txt");
+        //    TaskEntity task = tasksRepository.GetById(taskId);
 
-            if (task == null)
-            {
-                Console.Clear();
-                Console.BackgroundColor = ConsoleColor.Red;
-                Console.WriteLine("Task not found. Press Key To Return!");
-                Console.ResetColor();
-                Console.ReadKey(true);
-                return;
-            }
+        //    if (task == null)
+        //    {
+        //        Console.Clear();
+        //        Console.BackgroundColor = ConsoleColor.Red;
+        //        Console.WriteLine("Task not found. Press Key To Return!");
+        //        Console.ResetColor();
+        //        Console.ReadKey(true);
+        //        return;
+        //    }
 
-            Console.WriteLine("Editing task (" + task.Title + ") with ID: " + task.Id);
+        //    Console.WriteLine("Editing task (" + task.Title + ") with ID: " + task.Id);
 
-            Console.WriteLine("##########################################");
+        //    Console.WriteLine("##########################################");
 
-            Console.WriteLine("Old task title: " + task.Title);
-            Console.Write("New Title: ");
-            string title = Console.ReadLine();
+        //    Console.WriteLine("Old task title: " + task.Title);
+        //    Console.Write("New Title: ");
+        //    string title = Console.ReadLine();
 
-            Console.WriteLine("Old task content: " + task.Content);
-            Console.Write("New Content: ");
-            string content = Console.ReadLine();
+        //    Console.WriteLine("Old task content: " + task.Content);
+        //    Console.Write("New Content: ");
+        //    string content = Console.ReadLine();
 
-            Console.WriteLine("##########################################");
+        //    Console.WriteLine("##########################################");
 
-            Console.WriteLine("Status: " + task.Status);
-            Console.Write("New Status(Working/Idle/Done): ");
-            string status = Console.ReadLine();
+        //    Console.WriteLine("Status: " + task.Status);
+        //    Console.Write("New Status(Working/Idle/Done): ");
+        //    string status = Console.ReadLine();
 
-            Console.WriteLine("##########################################");
+        //    Console.WriteLine("##########################################");
 
-            Console.WriteLine("All working time in Hours: " + task.EstimatedTime);
-            Console.Write("Enter new time in Hours: ");
-            int time = int.Parse(Console.ReadLine());
+        //    Console.WriteLine("All working time in Hours: " + task.EstimatedTime);
+        //    Console.Write("Enter new time in Hours: ");
+        //    int time = int.Parse(Console.ReadLine());
 
-            task.LastChange = DateTime.Now;
+        //    task.LastChange = DateTime.Now;
 
 
-            if (!string.IsNullOrEmpty(title))
-                task.Title = title;
-            if (!string.IsNullOrEmpty(content))
-                task.Content = content;
-            if (!string.IsNullOrEmpty(status))
-                task.Status = status;
-            //TODO maybe fix WorkingTime
-            if (task.EstimatedTime != time)
-                task.EstimatedTime = time;
+        //    if (!string.IsNullOrEmpty(title))
+        //        task.Title = title;
+        //    if (!string.IsNullOrEmpty(content))
+        //        task.Content = content;
+        //    if (!string.IsNullOrEmpty(status))
+        //        task.Status = status;
+        //    //TODO maybe fix WorkingTime
+        //    if (task.EstimatedTime != time)
+        //        task.EstimatedTime = time;
 
-            tasksRepository.Save(task);
+        //    tasksRepository.Save(task);
 
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine("Task saved successfully. Press Key To Return!");
-            Console.ResetColor();
-            Console.ReadKey(true);
-        }
+        //    Console.BackgroundColor = ConsoleColor.DarkGreen;
+        //    Console.WriteLine("Task saved successfully. Press Key To Return!");
+        //    Console.ResetColor();
+        //    Console.ReadKey(true);
+        //}
 
 
         private void Delete()

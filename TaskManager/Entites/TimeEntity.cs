@@ -8,10 +8,9 @@
 
     public class TimeEntity : BaseEntity
     {
-        public int UserId { get; set; }
-        public int TaskId { get; set; }
-        public int Hours { get; set; }
-        public DateTime TimeTaken { get; set; }
-
+        public int TaskId { get;  set;}
+        public int EstimatedTime { get; set; }
+        public string LastChange { get; set; }
+        public string CreateTime { get; set; }
     }
 }

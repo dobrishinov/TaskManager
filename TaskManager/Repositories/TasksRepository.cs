@@ -5,7 +5,7 @@
     using TaskManager.Services;
     using System.IO;
     using System.Collections.Generic;
-    using System.Globalization;
+
     class TasksRepository : BaseController<TaskEntity>
     {
         public TasksRepository(string pathToFile)
@@ -21,9 +21,6 @@
             sw.WriteLine(item.Content);
             sw.WriteLine(item.Creator);
             sw.WriteLine(item.Status);
-            sw.WriteLine(item.EstimatedTime);
-            sw.WriteLine(item.LastChange.ToString("dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture));
-            sw.WriteLine(item.CreateTime.ToString("dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture));
         }
 
         protected override void ReadItemFromStream(StreamReader sr, TaskEntity item)
@@ -34,9 +31,6 @@
             item.Content = sr.ReadLine();
             item.Creator = sr.ReadLine();
             item.Status = sr.ReadLine();
-            item.EstimatedTime = Convert.ToInt32(sr.ReadLine());
-            item.LastChange = DateTime.ParseExact(sr.ReadLine(), "dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture);
-            item.CreateTime = DateTime.ParseExact(sr.ReadLine(), "dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture);
         }
 
         public virtual List<TaskEntity> GetAll(int CreatorId)

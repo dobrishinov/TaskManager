@@ -1,20 +1,7 @@
 1
 2
 2
-MY FIRST TASK
-MY FIRST TASK CONTENT
+title
+content
 user
-Working
-23
-07-07-2016 09:27:24
-07-07-2016 09:21:22
-2
-2
-1
-ADMINA DA GO PRAVI
-ADmina
-user
-working
-2
-07-07-2016 09:30:39
-07-07-2016 09:30:04
+idle
