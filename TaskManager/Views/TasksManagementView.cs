@@ -35,7 +35,7 @@
                             }
                         case TaskManagementEnum.Update:
                             {
-                                //Update();
+                                Update();
                                 break;
                             }
                         case TaskManagementEnum.Delete:
@@ -334,74 +334,82 @@
             Console.ReadKey(true);
         }
 
-        //private void Update()
-        //{
-        //    Console.Clear();
+        private void Update()
+        {
+            Console.Clear();
 
-        //    Console.BackgroundColor = ConsoleColor.DarkRed;
-        //    Console.WriteLine("###############|Edit Task|################");
-        //    Console.ResetColor();
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("###############|Edit Task|################");
+            Console.ResetColor();
 
-        //    Console.Write("Please enter task ID: ");
-        //    int taskId = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Please enter task ID: ");
+            int taskId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("############################################");
 
-        //    TasksRepository tasksRepository = new TasksRepository("tasks.txt");
-        //    TaskEntity task = tasksRepository.GetById(taskId);
+            TasksRepository tasksRepository = new TasksRepository("tasks.txt");
+            TaskEntity task = tasksRepository.GetById(taskId);
 
-        //    if (task == null)
-        //    {
-        //        Console.Clear();
-        //        Console.BackgroundColor = ConsoleColor.Red;
-        //        Console.WriteLine("Task not found. Press Key To Return!");
-        //        Console.ResetColor();
-        //        Console.ReadKey(true);
-        //        return;
-        //    }
+            if (task == null)
+            {
+                Console.Clear();
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.WriteLine("Task not found. Press Key To Return!");
+                Console.ResetColor();
+                Console.ReadKey(true);
+                return;
+            }
 
-        //    Console.WriteLine("Editing task (" + task.Title + ") with ID: " + task.Id);
+            TimeRepository timeRepository = new TimeRepository("time.txt");
+            TimeEntity times = timeRepository.GetById(taskId);
 
-        //    Console.WriteLine("##########################################");
+            CommentsRepository commentRepository = new CommentsRepository("comments.txt");
+            CommentEntity comments = commentRepository.GetById(taskId);
 
-        //    Console.WriteLine("Old task title: " + task.Title);
-        //    Console.Write("New Title: ");
-        //    string title = Console.ReadLine();
+            Console.WriteLine("Editing task (" + task.Title + ") with ID: " + task.Id);
 
-        //    Console.WriteLine("Old task content: " + task.Content);
-        //    Console.Write("New Content: ");
-        //    string content = Console.ReadLine();
+            Console.WriteLine("##########################################");
 
-        //    Console.WriteLine("##########################################");
+            Console.WriteLine("Old task title: " + task.Title);
+            Console.Write("New Title: ");
+            string title = Console.ReadLine();
 
-        //    Console.WriteLine("Status: " + task.Status);
-        //    Console.Write("New Status(Working/Idle/Done): ");
-        //    string status = Console.ReadLine();
+            Console.WriteLine("Old task content: " + task.Content);
+            Console.Write("New Content: ");
+            string content = Console.ReadLine();
 
-        //    Console.WriteLine("##########################################");
+            Console.WriteLine("##########################################");
 
-        //    Console.WriteLine("All working time in Hours: " + task.EstimatedTime);
-        //    Console.Write("Enter new time in Hours: ");
-        //    int time = int.Parse(Console.ReadLine());
+            Console.WriteLine("Status: " + task.Status);
+            Console.Write("New Status(Working/Idle/Done): ");
+            string status = Console.ReadLine();
 
-        //    task.LastChange = DateTime.Now;
+            Console.WriteLine("##########################################");
+
+            Console.WriteLine("Estimate Time (in hours): " + times.EstimatedTime);
+            Console.Write("Enter new Estimate Time (in hours): ");
+            int time = int.Parse(Console.ReadLine());
+
+            times.LastChange = DateTime.Now;
 
 
-        //    if (!string.IsNullOrEmpty(title))
-        //        task.Title = title;
-        //    if (!string.IsNullOrEmpty(content))
-        //        task.Content = content;
-        //    if (!string.IsNullOrEmpty(status))
-        //        task.Status = status;
-        //    //TODO maybe fix WorkingTime
-        //    if (task.EstimatedTime != time)
-        //        task.EstimatedTime = time;
+            if (!string.IsNullOrEmpty(title))
+                task.Title = title;
+            if (!string.IsNullOrEmpty(content))
+                task.Content = content;
+            if (!string.IsNullOrEmpty(status))
+                task.Status = status;
+            //TODO maybe fix Estimate Time
+            if (times.EstimatedTime != time)
+                times.EstimatedTime = time;
 
-        //    tasksRepository.Save(task);
+            tasksRepository.Save(task);
+            timeRepository.Save(times);
 
-        //    Console.BackgroundColor = ConsoleColor.DarkGreen;
-        //    Console.WriteLine("Task saved successfully. Press Key To Return!");
-        //    Console.ResetColor();
-        //    Console.ReadKey(true);
-        //}
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("Task saved successfully. Press Key To Return!");
+            Console.ResetColor();
+            Console.ReadKey(true);
+        }
 
         private void Delete()
         {
