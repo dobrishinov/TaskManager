@@ -4,7 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-
+    using System.Threading;
     public abstract class BaseRepository<T> where T : BaseEntity, new()
     {
         private readonly string pathToFile;
@@ -125,6 +125,7 @@
                     }
                 }
             }
+            
             finally
             {
                 sr.Close();
@@ -153,6 +154,7 @@
                     results.Add(item);
                 }
             }
+            
             finally
             {
                 sr.Close();

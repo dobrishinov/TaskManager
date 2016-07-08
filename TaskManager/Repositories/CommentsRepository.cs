@@ -30,7 +30,7 @@
             item.CreatorId = Convert.ToInt32(sr.ReadLine());
             item.TaskId = Convert.ToInt32(sr.ReadLine());
             item.Comment = sr.ReadLine();
-            item.CreateDate = DateTime.Parse(sr.ReadLine());
+            item.CreateDate = Convert.ToDateTime(sr.ReadLine());
         }
 
         public virtual List<CommentEntity> GetAll(int taskId)
@@ -44,13 +44,12 @@
             {
                 while (!sr.EndOfStream)
                 {
-                    CommentEntity item = new CommentEntity();
-                    item.Id = Convert.ToInt32(sr.ReadLine());
-                    item.TaskId = Convert.ToInt32(sr.ReadLine());
-                    ReadItemFromStream(sr, item);
-                    if (taskId == item.TaskId)
+                    CommentEntity comment = new CommentEntity();
+                    comment.Id = Convert.ToInt32(sr.ReadLine());
+                    ReadItemFromStream(sr, comment);
+                    if (taskId == comment.TaskId)
                     {
-                        result.Add(item);
+                        result.Add(comment);
                     }
                 }
             }

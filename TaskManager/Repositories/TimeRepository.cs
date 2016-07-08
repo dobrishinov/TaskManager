@@ -27,7 +27,7 @@
 
         protected override void ReadItemFromStream(StreamReader sr, TimeEntity item)
         {
-             item.TaskId=Convert.ToInt32(sr.ReadLine());
+            item.TaskId=Convert.ToInt32(sr.ReadLine());
             item.EstimatedTime = Convert.ToInt32(sr.ReadLine());
             item.LastChange = Convert.ToDateTime(sr.ReadLine());
             item.CreateTime = Convert.ToDateTime(sr.ReadLine());

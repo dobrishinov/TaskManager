@@ -1,7 +1,7 @@
 1
 2
 2
-simple title
-simple content
+FIRST TASK
+FIRST CONTENT
 user
-idle
+WORKING
