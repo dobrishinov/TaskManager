@@ -21,16 +21,16 @@
         {
             sw.WriteLine(item.TaskId);
             sw.WriteLine(item.EstimatedTime);
-            sw.WriteLine(item.LastChange);
-            sw.WriteLine(item.CreateTime);
+            sw.WriteLine(item.LastChange.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
+            sw.WriteLine(item.CreateTime.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
         }
 
         protected override void ReadItemFromStream(StreamReader sr, TimeEntity item)
         {
             item.TaskId=Convert.ToInt32(sr.ReadLine());
             item.EstimatedTime = Convert.ToInt32(sr.ReadLine());
-            item.LastChange = Convert.ToDateTime(sr.ReadLine());
-            item.CreateTime = Convert.ToDateTime(sr.ReadLine());
+            item.LastChange = DateTime.ParseExact(sr.ReadLine(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+            item.CreateTime = DateTime.ParseExact(sr.ReadLine(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
         }
 
         public virtual List<TimeEntity> GetAll(int taskId)

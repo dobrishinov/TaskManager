@@ -197,7 +197,7 @@
             Console.Clear();
 
             Console.BackgroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("###############|View By ID|################");
+            Console.WriteLine("################|View By ID|################");
             Console.ResetColor();
 
             Console.Write("Please enter task ID: ");
