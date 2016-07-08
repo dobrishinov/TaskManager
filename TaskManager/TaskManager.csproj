@@ -59,6 +59,7 @@
     <Compile Include="Services\Auth.cs" />
     <Compile Include="Services\MenuNum.cs" />
     <Compile Include="Views\AdministratorView.cs" />
+    <Compile Include="Views\CommentView.cs" />
     <Compile Include="Views\LoginView.cs" />
     <Compile Include="Views\TasksManagementView.cs" />
     <Compile Include="Views\UsersManagementView.cs" />

@@ -28,6 +28,16 @@
                                 View();
                                 break;
                             }
+                        case TaskManagementEnum.CommentView:
+                            {
+                                CommentView();
+                                break;
+                            }
+                        case TaskManagementEnum.CommentEdit:
+                            {
+                                CommentEdit();
+                                break;
+                            }
                         case TaskManagementEnum.Insert:
                             {
                                 Add();
@@ -264,6 +274,16 @@
             Console.ResetColor();
 
             Console.ReadKey(true);
+        }
+
+        private void CommentView()
+        {
+
+        }
+
+        private void CommentEdit()
+        {
+
         }
 
         private void Add()

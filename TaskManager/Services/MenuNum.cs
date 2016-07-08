@@ -24,6 +24,8 @@
         Insert = 3,
         Update = 4,
         Delete = 5,
-        Exit = 6
+        Exit = 6,
+        CommentView = 7,
+        CommentEdit = 8
     }
 }
