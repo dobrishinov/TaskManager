@@ -1,14 +1,7 @@
 1
 2
 2
-title
-content
+simple title
+simple content
 user
 idle
-2
-2
-2
-ads
-asd
-user
-ad

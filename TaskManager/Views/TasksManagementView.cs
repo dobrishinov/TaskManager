@@ -90,6 +90,7 @@
                     Console.WriteLine("Task response by: " + task.ResponsibleUsers);
 
                     List<TimeEntity> times = timeRepository.GetAll(task.Id);
+
                     foreach (var time in times)
                     {
 
@@ -313,6 +314,8 @@
             TasksRepository tasksRepository = new TasksRepository("tasks.txt");
             tasksRepository.Save(task);
 
+            time.TaskId = task.Id;
+
             TimeRepository timeRepository = new TimeRepository("time.txt");
             timeRepository.Save(time);
 
@@ -395,7 +398,6 @@
         //    Console.ResetColor();
         //    Console.ReadKey(true);
         //}
-
 
         private void Delete()
         {

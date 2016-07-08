@@ -52,7 +52,6 @@
                     {
                         result.Add(item);
                     }
-
                 }
             }
             finally
