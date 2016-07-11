@@ -28,14 +28,19 @@
                                 View();
                                 break;
                             }
-                        case TaskManagementEnum.CommentView:
+                        case TaskManagementEnum.CommentAdd:
                             {
-                                CommentView();
+                                CommentAdd();
                                 break;
                             }
                         case TaskManagementEnum.CommentEdit:
                             {
                                 CommentEdit();
+                                break;
+                            }
+                        case TaskManagementEnum.CommentDelete:
+                            {
+                                CommentDelete();
                                 break;
                             }
                         case TaskManagementEnum.Insert:
@@ -99,6 +104,12 @@
                 Console.WriteLine("[A]dd Tasks");
                 Console.WriteLine("[E]dit Tasks");
                 Console.WriteLine("[D]elete Tasks");
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("#############|Comments Options|#############");
+                Console.ResetColor();
+                Console.WriteLine("[1] - Add comment to Task");
+                Console.WriteLine("[2] - Edit comment");
+                Console.WriteLine("[3] - Delete comment");
                 Console.WriteLine("E[x]it");
 
                 string choice = Console.ReadLine();
@@ -119,6 +130,18 @@
                     case "E":
                         {
                             return TaskManagementEnum.Update;
+                        }
+                    case "1":
+                        {
+                            return TaskManagementEnum.CommentAdd;
+                        }
+                    case "2":
+                        {
+                            return TaskManagementEnum.CommentEdit;
+                        }
+                    case "3":
+                        {
+                            return TaskManagementEnum.CommentDelete;
                         }
                     case "D":
                         {
@@ -259,6 +282,7 @@
 
             foreach (var comment in comments)
             {
+                Console.WriteLine("Comment ID: " + comment.Id);
                 Console.WriteLine("Comment: " + comment.Comment);
                 Console.WriteLine("Comment create at: " + comment.CreateDate);
 
@@ -276,14 +300,179 @@
             Console.ReadKey(true);
         }
 
-        private void CommentView()
+        private void CommentAdd()
         {
+            Console.Clear();
 
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("###############|Add New Comment|################");
+            Console.ResetColor();
+
+            //Console.Write("Please enter task ID: ");
+            //int taskId = Convert.ToInt32(Console.ReadLine());
+            //Console.WriteLine("############################################");
+
+            //TasksRepository tasksRepository = new TasksRepository("tasks.txt");
+            //TaskEntity task = tasksRepository.GetById(taskId);
+
+            //if (task == null)
+            //{
+            //    Console.Clear();
+            //    Console.BackgroundColor = ConsoleColor.Red;
+            //    Console.WriteLine("Task not found. Press Key To Return!");
+            //    Console.ResetColor();
+            //    Console.ReadKey(true);
+            //    return;
+            //}
+
+            //TimeRepository timeRepository = new TimeRepository("time.txt");
+            //TimeEntity times = timeRepository.GetById(taskId);
+
+            //CommentsRepository commentRepository = new CommentsRepository("comments.txt");
+            //CommentEntity comments = commentRepository.GetById(taskId);
+
+
+
+            TaskEntity task = new TaskEntity();
+            CommentEntity comment = new CommentEntity();
+            StatusEntity status = new StatusEntity();
+            //TimeEntity time = new TimeEntity();
+            //CommentEntity comment = new CommentEntity();
+
+            Console.Write("Please enter task ID: ");
+            int taskId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("############################################");
+
+            //Console.Write("Add Comment: ");
+            //comment.Comment = Console.ReadLine();
+            //comment.CreatorId = Auth.LoggedUser.Id;
+            //comment.TaskId = status.Id;
+            //comment.CreateDate = DateTime.Now;
+
+            Console.Write("Write Comment: ");
+            comment.Comment = Console.ReadLine();
+
+            Console.Write("Task Status(Working/Idle/Done): ");
+            status.Status = Console.ReadLine();
+
+            //Console.Write("Working time in Hours: ");
+            //time.EstimatedTime = Convert.ToInt32(Console.ReadLine());
+
+            //time.CreateTime = DateTime.Now;
+
+            //time.LastChange = DateTime.Now;
+
+            comment.CreatorId = Auth.LoggedUser.Id;
+            comment.TaskId = taskId;
+            comment.CreateDate = DateTime.Now;
+            status.TaskId = taskId;
+
+            CommentsRepository commentRepository = new CommentsRepository("comments.txt");
+            commentRepository.Save(comment);
+            StatusRepository statusRepository = new StatusRepository("status.txt");
+            statusRepository.Save(status);
+
+            //task.CreatorId = Auth.LoggedUser.Id;
+            //TasksRepository tasksRepository = new TasksRepository("tasks.txt");
+            //tasksRepository.Save(task);
+
+            //time.TaskId = task.Id;
+            //TimeRepository timeRepository = new TimeRepository("time.txt");
+            //timeRepository.Save(time);
+
+            //comment.TaskId = task.Id;
+            //CommentsRepository commentsRepository = new CommentsRepository("comments.txt");
+            //commentsRepository.Save(comment);
+
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("Comment and Status saved successfully!");
+            Console.ResetColor();
+            Console.ReadKey(true);
         }
 
         private void CommentEdit()
         {
+            Console.Clear();
 
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("###############|Edit Comment|################");
+            Console.ResetColor();
+        }
+
+        private void CommentDelete()
+        {
+            //Console.Clear();
+
+            //Console.BackgroundColor = ConsoleColor.DarkRed;
+            //Console.WriteLine("#########|Delete Task By ID|############");
+            //Console.ResetColor();
+
+            //TaskEntity task = new TaskEntity();
+            //StatusEntity status = new StatusEntity();
+
+            //Console.Write("Please enter task ID: ");
+            //int taskId = Convert.ToInt32(Console.ReadLine());
+            //Console.WriteLine("############################################");
+
+            ////TasksRepository tasksRepository = new TasksRepository("tasks.txt");
+            //StatusRepository statusRepository = new StatusRepository("status.txt");
+            ////TimeRepository timeRepository = new TimeRepository("time.txt");
+            ////CommentsRepository commentRepository = new CommentsRepository("comments.txt");
+
+
+            ////TimeEntity time = timeRepository.GetById(taskId);
+            ////CommentEntity comment = commentRepository.GetById(taskId);
+            //statusRepository.Delete(status);
+
+            ////if (status == null || task.CreatorId != Auth.LoggedUser.Id)
+            ////{
+            ////    Console.BackgroundColor = ConsoleColor.Red;
+            ////    Console.WriteLine("Task not found. Press Key To Return!");
+            ////    Console.ResetColor();
+            ////}
+            ////else
+            ////{
+            ////    //tasksRepository.Delete(task);
+            ////    ///timeRepository.Delete(time);
+            ////    //commentRepository.Delete(comment);
+            ////    Console.BackgroundColor = ConsoleColor.DarkGreen;
+            ////    Console.WriteLine("Task deleted successfully!");
+            ////    Console.ResetColor();
+            ////}
+            //Console.ReadKey(true);
+
+            TasksRepository tasksRepository = new TasksRepository("tasks.txt");
+            CommentsRepository commentRepository = new CommentsRepository("comments.txt");
+            StatusRepository statusRepository = new StatusRepository("status.txt");
+
+            Console.Clear();
+
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("#########|Delete Comment By ID|############");
+            Console.ResetColor();
+
+            Console.Write("Please enter comment ID: ");
+            int taskId = Convert.ToInt32(Console.ReadLine());
+
+            TaskEntity task = tasksRepository.GetById(taskId);
+            CommentEntity comment = commentRepository.GetById(taskId);
+            StatusEntity status = statusRepository.GetById(taskId);
+
+            if (task == null || task.CreatorId != Auth.LoggedUser.Id)
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.WriteLine("Comment not found. Press Key To Return!");
+                Console.ResetColor();
+            }
+            else
+            {
+                commentRepository.Delete(comment);
+                statusRepository.Delete(status);
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("Comment deleted successfully!");
+                Console.ResetColor();
+            }
+            Console.ReadKey(true);
         }
 
         private void Add()
@@ -315,15 +504,6 @@
             
             Console.Write("Working time in Hours: ");
             time.EstimatedTime = Convert.ToInt32(Console.ReadLine());
-
-            //DateTime date = DateTime.Now;
-            //string timeFormat = date.ToString("dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture);
-
-            //string.Format("{0}-{1}-{2} {3}:{4}:{5}", date.Day, date.Month, date.Year, date.Hour, date.Minute, date.Second);
-
-            //time.CreateTime = Convert.ToDateTime(timeFormat);
-
-            //time.LastChange = Convert.ToDateTime(timeFormat);
             
             time.CreateTime = DateTime.Now;
 
