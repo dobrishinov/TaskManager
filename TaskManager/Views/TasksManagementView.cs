@@ -340,7 +340,7 @@
             //CommentEntity comment = new CommentEntity();
 
             Console.Write("Please enter task ID: ");
-            int taskId = Convert.ToInt32(Console.ReadLine());
+            int commentId = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("############################################");
 
             //Console.Write("Add Comment: ");
@@ -363,27 +363,15 @@
             //time.LastChange = DateTime.Now;
 
             comment.CreatorId = Auth.LoggedUser.Id;
-            comment.TaskId = taskId;
+            comment.TaskId = commentId;
             comment.CreateDate = DateTime.Now;
-            status.TaskId = taskId;
+            status.TaskId = commentId;
 
             CommentsRepository commentRepository = new CommentsRepository("comments.txt");
             commentRepository.Save(comment);
             StatusRepository statusRepository = new StatusRepository("status.txt");
             statusRepository.Save(status);
-
-            //task.CreatorId = Auth.LoggedUser.Id;
-            //TasksRepository tasksRepository = new TasksRepository("tasks.txt");
-            //tasksRepository.Save(task);
-
-            //time.TaskId = task.Id;
-            //TimeRepository timeRepository = new TimeRepository("time.txt");
-            //timeRepository.Save(time);
-
-            //comment.TaskId = task.Id;
-            //CommentsRepository commentsRepository = new CommentsRepository("comments.txt");
-            //commentsRepository.Save(comment);
-
+            
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Comment and Status saved successfully!");
             Console.ResetColor();
@@ -397,6 +385,48 @@
             Console.BackgroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("###############|Edit Comment|################");
             Console.ResetColor();
+
+            Console.Write("Please enter comment ID: ");
+            int commentId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("############################################");
+
+            CommentsRepository commentsRepository = new CommentsRepository("comments.txt");
+            CommentEntity comments = commentsRepository.GetById(commentId);
+            StatusRepository statusRepository = new StatusRepository("status.txt");
+            StatusEntity status = statusRepository.GetById(commentId);
+
+            if (comments == null)
+            {
+                Console.Clear();
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.WriteLine("Comment not found. Press Key To Return!");
+                Console.ResetColor();
+                Console.ReadKey(true);
+                return;
+            }
+            
+            Console.WriteLine("Old comment content: " + comments.Comment);
+            Console.Write("New comment content: ");
+            string comment = Console.ReadLine();
+
+            Console.WriteLine("Task Status: " + status.Status);
+            Console.Write("New Task Status(Working/Idle/Done): ");
+            string taskStatus = Console.ReadLine();
+
+            if (!string.IsNullOrEmpty(comment))
+                comments.Comment = comment;
+            if (!string.IsNullOrEmpty(taskStatus))
+                status.Status = taskStatus;
+
+            commentsRepository.Save(comments);
+            statusRepository.Save(status);
+
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("Comments saved successfully. Press Key To Return!");
+            Console.ResetColor();
+            Console.ReadKey(true);
+
+            Console.WriteLine("##########################################");
         }
 
         private void CommentDelete()
