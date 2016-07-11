@@ -20,7 +20,7 @@
             sw.WriteLine(item.Title);
             sw.WriteLine(item.Content);
             sw.WriteLine(item.Creator);
-            sw.WriteLine(item.Status);
+            //sw.WriteLine(item.Status);
         }
 
         protected override void ReadItemFromStream(StreamReader sr, TaskEntity item)
@@ -30,7 +30,7 @@
             item.Title = sr.ReadLine();
             item.Content = sr.ReadLine();
             item.Creator = sr.ReadLine();
-            item.Status = sr.ReadLine();
+            //item.Status = sr.ReadLine();
         }
 
         public virtual List<TaskEntity> GetAll(int CreatorId)

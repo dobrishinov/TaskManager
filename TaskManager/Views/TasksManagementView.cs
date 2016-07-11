@@ -173,6 +173,8 @@
 
             TimeRepository timeRepository = new TimeRepository("time.txt");
 
+            
+
             CommentsRepository commentRepository = new CommentsRepository("comments.txt");
 
             Console.BackgroundColor = ConsoleColor.DarkRed;
@@ -186,7 +188,7 @@
                 Console.WriteLine("Tasks Content: " + task.Content);
                 Console.WriteLine("Task create by: " + task.Creator);
                 Console.WriteLine("############################################");
-                Console.WriteLine("Task status: " + task.Status);
+                //Console.WriteLine("Task status: " + task.Status);
                 Console.WriteLine("Task response by: " + task.ResponsibleUsers);
 
                 Console.WriteLine("############################################");
@@ -254,14 +256,18 @@
             List<TimeEntity> times = timeRepository.GetAll(task.Id);
 
             CommentsRepository commentRepository = new CommentsRepository("comments.txt");
-            List<CommentEntity> comments = commentRepository.GetAll(task.Id);
+            List<CommentEntity> comments = commentRepository.GetAll(taskId);
 
+            StatusRepository statusRepository = new StatusRepository("status.txt");
+           
+            StatusEntity status = statusRepository.GetAll().Find(stat=>stat.TaskId==taskId);
+           
             Console.WriteLine("Task ID: " + task.Id);
             Console.WriteLine("Task Title: " + task.Title);
             Console.WriteLine("Tasks Content: " + task.Content);
             Console.WriteLine("Task create by: " + task.Creator);
             Console.WriteLine("############################################");
-            Console.WriteLine("Task status: " + task.Status);
+            Console.WriteLine("Task status: " + status.Status);
             Console.WriteLine("Task response by: " + task.ResponsibleUsers);
             Console.WriteLine("############################################");
 
@@ -515,7 +521,8 @@
 
             TaskEntity task = new TaskEntity();
             TimeEntity time = new TimeEntity();
-            CommentEntity comment = new CommentEntity();
+            //CommentEntity comment = new CommentEntity();
+            //StatusEntity status = new StatusEntity();
 
             Console.Write("Add Task Title: ");
             task.Title = Console.ReadLine();
@@ -528,8 +535,8 @@
             Console.Write("Enter ID to Responsible User: ");
             task.ResponsibleUsers = int.Parse(Console.ReadLine());
 
-            Console.Write("Task Status(Working/Idle/Done): ");
-            task.Status = Console.ReadLine();
+            //Console.Write("Task Status(Working/Idle/Done): ");
+            //status.Status = Console.ReadLine();
 
             
             Console.Write("Working time in Hours: ");
@@ -539,11 +546,11 @@
 
             time.LastChange = DateTime.Now;
 
-            Console.Write("Add Comment: ");
-            comment.Comment = Console.ReadLine();
-            comment.CreatorId = Auth.LoggedUser.Id;
-            comment.TaskId= task.Id;
-            comment.CreateDate = DateTime.Now;
+            //Console.Write("Add Comment: ");
+            //comment.Comment = Console.ReadLine();
+            //comment.CreatorId = Auth.LoggedUser.Id;
+            //comment.TaskId= task.Id;
+            //comment.CreateDate = DateTime.Now;
 
 
             task.CreatorId = Auth.LoggedUser.Id;
@@ -554,9 +561,9 @@
             TimeRepository timeRepository = new TimeRepository("time.txt");
             timeRepository.Save(time);
 
-            comment.TaskId = task.Id;
-            CommentsRepository commentsRepository = new CommentsRepository("comments.txt");
-            commentsRepository.Save(comment);
+            //comment.TaskId = task.Id;
+            //CommentsRepository commentsRepository = new CommentsRepository("comments.txt");
+            //commentsRepository.Save(comment);
 
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Task saved successfully!");
@@ -609,11 +616,11 @@
 
             Console.WriteLine("##########################################");
 
-            Console.WriteLine("Status: " + task.Status);
-            Console.Write("New Status(Working/Idle/Done): ");
-            string status = Console.ReadLine();
+            //Console.WriteLine("Status: " + task.Status);
+            //Console.Write("New Status(Working/Idle/Done): ");
+            //string status = Console.ReadLine();
 
-            Console.WriteLine("##########################################");
+            //Console.WriteLine("##########################################");
 
             Console.WriteLine("Estimate Time (in hours): " + times.EstimatedTime);
             Console.Write("Enter new Estimate Time (in hours): ");
@@ -626,8 +633,8 @@
                 task.Title = title;
             if (!string.IsNullOrEmpty(content))
                 task.Content = content;
-            if (!string.IsNullOrEmpty(status))
-                task.Status = status;
+            //if (!string.IsNullOrEmpty(status))
+            //    task.Status = status;
             //TODO maybe fix Estimate Time
             if (times.EstimatedTime != time)
                 times.EstimatedTime = time;
