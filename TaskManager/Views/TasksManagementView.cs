@@ -291,6 +291,7 @@
             TasksRepository tasksRepository = new TasksRepository("tasks.txt");
             TimeRepository timeRepository = new TimeRepository("time.txt");
             CommentsRepository commentRepository = new CommentsRepository("comments.txt");
+            StatusRepository statusRepository = new StatusRepository("status.txt");
 
             Console.Clear();
 
@@ -304,6 +305,7 @@
             TaskEntity task = tasksRepository.GetById(taskId);
             TimeEntity time = timeRepository.GetById(taskId);
             CommentEntity comment = commentRepository.GetById(taskId);
+            StatusEntity status = statusRepository.GetById(taskId);
 
             if (task == null || task.CreatorId != Auth.LoggedUser.Id)
             {
@@ -316,6 +318,7 @@
                 tasksRepository.Delete(task);
                 timeRepository.Delete(time);
                 commentRepository.Delete(comment);
+                statusRepository.Delete(status);
                 Console.BackgroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("Task deleted successfully!");
                 Console.ResetColor();
@@ -348,10 +351,12 @@
             comment.CreatorId = Auth.LoggedUser.Id;
             comment.TaskId = commentId;
             comment.CreateDate = DateTime.Now;
-            status.CommentId = comment.Id;
 
             CommentsRepository commentRepository = new CommentsRepository("comments.txt");
             commentRepository.Save(comment);
+
+            status.TaskId = task.Id;
+            status.CommentId = comment.Id;
             StatusRepository statusRepository = new StatusRepository("status.txt");
             statusRepository.Save(status);
 
