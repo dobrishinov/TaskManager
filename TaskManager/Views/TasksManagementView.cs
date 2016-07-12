@@ -251,7 +251,7 @@
                 Console.ReadKey(true);
                 return;
             }
-            int commentId = 2;
+
             TimeRepository timeRepository = new TimeRepository("time.txt");
             List<TimeEntity> times = timeRepository.GetAll(task.Id);
 
