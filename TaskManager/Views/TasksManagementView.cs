@@ -259,8 +259,8 @@
             List<CommentEntity> comments = commentRepository.GetAll(taskId);
 
             StatusRepository statusRepository = new StatusRepository("status.txt");
-           
-            StatusEntity status = statusRepository.GetAll().Find(stat=>stat.TaskId==taskId);
+            //StatusEntity status = statusRepository.GetAll().Find(stat => stat.TaskId == commentId);
+            StatusEntity status = statusRepository.GetById(taskId);
            
             Console.WriteLine("Task ID: " + task.Id);
             Console.WriteLine("Task Title: " + task.Title);
@@ -292,7 +292,7 @@
                 Console.WriteLine("Comment: " + comment.Comment);
                 Console.WriteLine("Comment create at: " + comment.CreateDate);
 
-                Console.BackgroundColor = ConsoleColor.DarkRed;
+                Console.BackgroundColor = ConsoleColor.DarkCyan;
                 Console.WriteLine("############################################");
                 Console.ResetColor();
             }
@@ -401,6 +401,7 @@
             StatusRepository statusRepository = new StatusRepository("status.txt");
             StatusEntity status = statusRepository.GetById(commentId);
 
+
             if (comments == null)
             {
                 Console.Clear();
@@ -488,13 +489,12 @@
             Console.ResetColor();
 
             Console.Write("Please enter comment ID: ");
-            int taskId = Convert.ToInt32(Console.ReadLine());
+            int commentId = Convert.ToInt32(Console.ReadLine());
 
-            TaskEntity task = tasksRepository.GetById(taskId);
-            CommentEntity comment = commentRepository.GetById(taskId);
-            StatusEntity status = statusRepository.GetById(taskId);
+            CommentEntity comment = commentRepository.GetById(commentId);
+            StatusEntity status = statusRepository.GetById(commentId);
 
-            if (task == null || task.CreatorId != Auth.LoggedUser.Id)
+            if (comment == null)
             {
                 Console.BackgroundColor = ConsoleColor.Red;
                 Console.WriteLine("Comment not found. Press Key To Return!");
