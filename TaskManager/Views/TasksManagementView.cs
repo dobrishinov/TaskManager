@@ -6,165 +6,9 @@
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    public class TasksManagementView : TaskEntity
+    class TasksManagementView : BaseView
     {
-        public void Show()
-        {
-            while (true)
-            {
-                TaskManagementEnum choice = RenderMenu();
-
-                try
-                {
-                    switch (choice)
-                    {
-                        case TaskManagementEnum.Select:
-                            {
-                                GetAll();
-                                break;
-                            }
-                        case TaskManagementEnum.View:
-                            {
-                                View();
-                                break;
-                            }
-                        case TaskManagementEnum.CommentAdd:
-                            {
-                                CommentAdd();
-                                break;
-                            }
-                        case TaskManagementEnum.CommentEdit:
-                            {
-                                CommentEdit();
-                                break;
-                            }
-                        case TaskManagementEnum.CommentDelete:
-                            {
-                                CommentDelete();
-                                break;
-                            }
-                        case TaskManagementEnum.Insert:
-                            {
-                                Add();
-                                break;
-                            }
-                        case TaskManagementEnum.Update:
-                            {
-                                Update();
-                                break;
-                            }
-                        case TaskManagementEnum.Delete:
-                            {
-                                Delete();
-                                break;
-                            }
-                        case TaskManagementEnum.Exit:
-                            {
-                                return;
-                            }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.Clear();
-                    Console.WriteLine(ex.Message);
-                    Console.ReadKey(true);
-                }
-            }
-
-        }
-
-        protected TaskManagementEnum RenderMenu()
-        {
-            while (true)
-            {
-                Console.Clear();
-
-                TasksRepository tasksRepository = new TasksRepository("tasks.txt");
-                List<TaskEntity> tasks = tasksRepository.GetAll(Auth.LoggedUser.Id);
-
-                Console.BackgroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("###############|Tasks manager|##############");
-                Console.ResetColor();
-
-                foreach (var task in tasks)
-                {
-                    Console.WriteLine("Task ID: " + task.Id + " | Title: " + task.Title + " | Create by: " + task.Creator + " | Response by: " + task.ResponsibleUsers);
-                    Console.BackgroundColor = ConsoleColor.DarkCyan;
-                    Console.WriteLine("################################################################################################");
-                    Console.ResetColor();
-                }
-                
-                Console.BackgroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("#############|Available Options|############");
-                Console.ResetColor();
-
-                Console.WriteLine("[G]et all Tasks");
-                Console.WriteLine("[V]iew Tasks");
-                Console.WriteLine("[A]dd Tasks");
-                Console.WriteLine("[E]dit Tasks");
-                Console.WriteLine("[D]elete Tasks");
-                Console.BackgroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("#############|Comments Options|#############");
-                Console.ResetColor();
-                Console.WriteLine("[1] - Add comment to Task");
-                Console.WriteLine("[2] - Edit comment");
-                Console.WriteLine("[3] - Delete comment");
-                Console.WriteLine("E[x]it");
-
-                string choice = Console.ReadLine();
-                switch (choice.ToUpper())
-                {
-                    case "G":
-                        {
-                            return TaskManagementEnum.Select;
-                        }
-                    case "V":
-                        {
-                            return TaskManagementEnum.View;
-                        }
-                    case "A":
-                        {
-                            return TaskManagementEnum.Insert;
-                        }
-                    case "E":
-                        {
-                            return TaskManagementEnum.Update;
-                        }
-                    case "1":
-                        {
-                            return TaskManagementEnum.CommentAdd;
-                        }
-                    case "2":
-                        {
-                            return TaskManagementEnum.CommentEdit;
-                        }
-                    case "3":
-                        {
-                            return TaskManagementEnum.CommentDelete;
-                        }
-                    case "D":
-                        {
-                            return TaskManagementEnum.Delete;
-                        }
-                    case "X":
-                        {
-                            return TaskManagementEnum.Exit;
-                        }
-                    default:
-                        {
-                            Console.BackgroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Invalid Choice");
-                            Console.ReadKey(true);
-                            Console.ResetColor();
-
-                            break;
-                        }
-                }
-            }
-        }
-
-        private void GetAll()
+        public override void GetAll()
         {
             Console.Clear();
 
@@ -188,7 +32,6 @@
                 Console.WriteLine("Tasks Content: " + task.Content);
                 Console.WriteLine("Task create by: " + task.Creator);
                 Console.WriteLine("############################################");
-                //Console.WriteLine("Task status: " + task.Status);
                 Console.WriteLine("Task response by: " + task.ResponsibleUsers);
 
                 Console.WriteLine("############################################");
@@ -227,7 +70,7 @@
             Console.ReadKey(true);
         }
 
-        private void View()
+        public override void View()
         {
             Console.Clear();
 
@@ -308,212 +151,7 @@
             Console.ReadKey(true);
         }
 
-        private void CommentAdd()
-        {
-            Console.Clear();
-
-            Console.BackgroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("###############|Add New Comment|################");
-            Console.ResetColor();
-
-            //Console.Write("Please enter task ID: ");
-            //int taskId = Convert.ToInt32(Console.ReadLine());
-            //Console.WriteLine("############################################");
-
-            //TasksRepository tasksRepository = new TasksRepository("tasks.txt");
-            //TaskEntity task = tasksRepository.GetById(taskId);
-
-            //if (task == null)
-            //{
-            //    Console.Clear();
-            //    Console.BackgroundColor = ConsoleColor.Red;
-            //    Console.WriteLine("Task not found. Press Key To Return!");
-            //    Console.ResetColor();
-            //    Console.ReadKey(true);
-            //    return;
-            //}
-
-            //TimeRepository timeRepository = new TimeRepository("time.txt");
-            //TimeEntity times = timeRepository.GetById(taskId);
-
-            //CommentsRepository commentRepository = new CommentsRepository("comments.txt");
-            //CommentEntity comments = commentRepository.GetById(taskId);
-
-
-
-            TaskEntity task = new TaskEntity();
-            CommentEntity comment = new CommentEntity();
-            StatusEntity status = new StatusEntity();
-            //TimeEntity time = new TimeEntity();
-            //CommentEntity comment = new CommentEntity();
-
-            Console.Write("Please enter task ID: ");
-            int commentId = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("############################################");
-
-            //Console.Write("Add Comment: ");
-            //comment.Comment = Console.ReadLine();
-            //comment.CreatorId = Auth.LoggedUser.Id;
-            //comment.TaskId = status.Id;
-            //comment.CreateDate = DateTime.Now;
-
-            Console.Write("Write Comment: ");
-            comment.Comment = Console.ReadLine();
-
-            Console.Write("Task Status(Working/Idle/Done): ");
-            status.Status = Console.ReadLine();
-
-            //Console.Write("Working time in Hours: ");
-            //time.EstimatedTime = Convert.ToInt32(Console.ReadLine());
-
-            //time.CreateTime = DateTime.Now;
-
-            //time.LastChange = DateTime.Now;
-
-            comment.CreatorId = Auth.LoggedUser.Id;
-            comment.TaskId = commentId;
-            comment.CreateDate = DateTime.Now;
-            status.CommentId = comment.Id;
-
-            CommentsRepository commentRepository = new CommentsRepository("comments.txt");
-            commentRepository.Save(comment);
-            StatusRepository statusRepository = new StatusRepository("status.txt");
-            statusRepository.Save(status);
-            
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine("Comment and Status saved successfully!");
-            Console.ResetColor();
-            Console.ReadKey(true);
-        }
-
-        private void CommentEdit()
-        {
-            Console.Clear();
-
-            Console.BackgroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("###############|Edit Comment|################");
-            Console.ResetColor();
-
-            Console.Write("Please enter comment ID: ");
-            int commentId = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("############################################");
-
-            CommentsRepository commentsRepository = new CommentsRepository("comments.txt");
-            CommentEntity comments = commentsRepository.GetById(commentId);
-            StatusRepository statusRepository = new StatusRepository("status.txt");
-            StatusEntity status = statusRepository.GetById(commentId);
-
-
-            if (comments == null)
-            {
-                Console.Clear();
-                Console.BackgroundColor = ConsoleColor.Red;
-                Console.WriteLine("Comment not found. Press Key To Return!");
-                Console.ResetColor();
-                Console.ReadKey(true);
-                return;
-            }
-            
-            Console.WriteLine("Old comment content: " + comments.Comment);
-            Console.Write("New comment content: ");
-            string comment = Console.ReadLine();
-
-            Console.WriteLine("Task Status: " + status.Status);
-            Console.Write("New Task Status(Working/Idle/Done): ");
-            string taskStatus = Console.ReadLine();
-
-            if (!string.IsNullOrEmpty(comment))
-                comments.Comment = comment;
-            if (!string.IsNullOrEmpty(taskStatus))
-                status.Status = taskStatus;
-
-            commentsRepository.Save(comments);
-            statusRepository.Save(status);
-
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine("Comments saved successfully. Press Key To Return!");
-            Console.ResetColor();
-            Console.ReadKey(true);
-
-            Console.WriteLine("##########################################");
-        }
-
-        private void CommentDelete()
-        {
-            //Console.Clear();
-
-            //Console.BackgroundColor = ConsoleColor.DarkRed;
-            //Console.WriteLine("#########|Delete Task By ID|############");
-            //Console.ResetColor();
-
-            //TaskEntity task = new TaskEntity();
-            //StatusEntity status = new StatusEntity();
-
-            //Console.Write("Please enter task ID: ");
-            //int taskId = Convert.ToInt32(Console.ReadLine());
-            //Console.WriteLine("############################################");
-
-            ////TasksRepository tasksRepository = new TasksRepository("tasks.txt");
-            //StatusRepository statusRepository = new StatusRepository("status.txt");
-            ////TimeRepository timeRepository = new TimeRepository("time.txt");
-            ////CommentsRepository commentRepository = new CommentsRepository("comments.txt");
-
-
-            ////TimeEntity time = timeRepository.GetById(taskId);
-            ////CommentEntity comment = commentRepository.GetById(taskId);
-            //statusRepository.Delete(status);
-
-            ////if (status == null || task.CreatorId != Auth.LoggedUser.Id)
-            ////{
-            ////    Console.BackgroundColor = ConsoleColor.Red;
-            ////    Console.WriteLine("Task not found. Press Key To Return!");
-            ////    Console.ResetColor();
-            ////}
-            ////else
-            ////{
-            ////    //tasksRepository.Delete(task);
-            ////    ///timeRepository.Delete(time);
-            ////    //commentRepository.Delete(comment);
-            ////    Console.BackgroundColor = ConsoleColor.DarkGreen;
-            ////    Console.WriteLine("Task deleted successfully!");
-            ////    Console.ResetColor();
-            ////}
-            //Console.ReadKey(true);
-
-            TasksRepository tasksRepository = new TasksRepository("tasks.txt");
-            CommentsRepository commentRepository = new CommentsRepository("comments.txt");
-            StatusRepository statusRepository = new StatusRepository("status.txt");
-
-            Console.Clear();
-
-            Console.BackgroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("#########|Delete Comment By ID|############");
-            Console.ResetColor();
-
-            Console.Write("Please enter comment ID: ");
-            int commentId = Convert.ToInt32(Console.ReadLine());
-
-            CommentEntity comment = commentRepository.GetById(commentId);
-            StatusEntity status = statusRepository.GetById(commentId);
-
-            if (comment == null)
-            {
-                Console.BackgroundColor = ConsoleColor.Red;
-                Console.WriteLine("Comment not found. Press Key To Return!");
-                Console.ResetColor();
-            }
-            else
-            {
-                commentRepository.Delete(comment);
-                statusRepository.Delete(status);
-                Console.BackgroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("Comment deleted successfully!");
-                Console.ResetColor();
-            }
-            Console.ReadKey(true);
-        }
-
-        private void Add()
+        public override void Add()
         {
             Console.Clear();
 
@@ -577,7 +215,7 @@
             Console.ReadKey(true);
         }
 
-        private void Update()
+        public override void Update()
         {
             Console.Clear();
 
@@ -622,12 +260,6 @@
 
             Console.WriteLine("##########################################");
 
-            //Console.WriteLine("Status: " + task.Status);
-            //Console.Write("New Status(Working/Idle/Done): ");
-            //string status = Console.ReadLine();
-
-            //Console.WriteLine("##########################################");
-
             Console.WriteLine("Estimate Time (in hours): " + times.EstimatedTime);
             Console.Write("Enter new Estimate Time (in hours): ");
             int time = int.Parse(Console.ReadLine());
@@ -654,7 +286,7 @@
             Console.ReadKey(true);
         }
 
-        private void Delete()
+        public override void Delete()
         {
             TasksRepository tasksRepository = new TasksRepository("tasks.txt");
             TimeRepository timeRepository = new TimeRepository("time.txt");
@@ -691,6 +323,130 @@
             Console.ReadKey(true);
         }
 
+        public override void CommentAdd()
+        {
+            Console.Clear();
+
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("###############|Add New Comment|################");
+            Console.ResetColor();
+
+            TaskEntity task = new TaskEntity();
+            CommentEntity comment = new CommentEntity();
+            StatusEntity status = new StatusEntity();
+
+            Console.Write("Please enter task ID: ");
+            int commentId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("############################################");
+
+            Console.Write("Write Comment: ");
+            comment.Comment = Console.ReadLine();
+
+            Console.Write("Task Status(Working/Idle/Done): ");
+            status.Status = Console.ReadLine();
+
+            comment.CreatorId = Auth.LoggedUser.Id;
+            comment.TaskId = commentId;
+            comment.CreateDate = DateTime.Now;
+            status.CommentId = comment.Id;
+
+            CommentsRepository commentRepository = new CommentsRepository("comments.txt");
+            commentRepository.Save(comment);
+            StatusRepository statusRepository = new StatusRepository("status.txt");
+            statusRepository.Save(status);
+
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("Comment and Status saved successfully!");
+            Console.ResetColor();
+            Console.ReadKey(true);
+        }
+
+        public override void CommentEdit()
+        {
+            Console.Clear();
+
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("###############|Edit Comment|################");
+            Console.ResetColor();
+
+            Console.Write("Please enter comment ID: ");
+            int commentId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("############################################");
+
+            CommentsRepository commentsRepository = new CommentsRepository("comments.txt");
+            CommentEntity comments = commentsRepository.GetById(commentId);
+            StatusRepository statusRepository = new StatusRepository("status.txt");
+            StatusEntity status = statusRepository.GetById(commentId);
+
+
+            if (comments == null)
+            {
+                Console.Clear();
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.WriteLine("Comment not found. Press Key To Return!");
+                Console.ResetColor();
+                Console.ReadKey(true);
+                return;
+            }
+
+            Console.WriteLine("Old comment content: " + comments.Comment);
+            Console.Write("New comment content: ");
+            string comment = Console.ReadLine();
+
+            Console.WriteLine("Task Status: " + status.Status);
+            Console.Write("New Task Status(Working/Idle/Done): ");
+            string taskStatus = Console.ReadLine();
+
+            if (!string.IsNullOrEmpty(comment))
+                comments.Comment = comment;
+            if (!string.IsNullOrEmpty(taskStatus))
+                status.Status = taskStatus;
+
+            commentsRepository.Save(comments);
+            statusRepository.Save(status);
+
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("Comments saved successfully. Press Key To Return!");
+            Console.ResetColor();
+            Console.ReadKey(true);
+
+            Console.WriteLine("##########################################");
+        }
+
+        public override void CommentDelete()
+        {
+            TasksRepository tasksRepository = new TasksRepository("tasks.txt");
+            CommentsRepository commentRepository = new CommentsRepository("comments.txt");
+            StatusRepository statusRepository = new StatusRepository("status.txt");
+
+            Console.Clear();
+
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("#########|Delete Comment By ID|############");
+            Console.ResetColor();
+
+            Console.Write("Please enter comment ID: ");
+            int commentId = Convert.ToInt32(Console.ReadLine());
+
+            CommentEntity comment = commentRepository.GetById(commentId);
+            StatusEntity status = statusRepository.GetById(commentId);
+
+            if (comment == null)
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.WriteLine("Comment not found. Press Key To Return!");
+                Console.ResetColor();
+            }
+            else
+            {
+                commentRepository.Delete(comment);
+                statusRepository.Delete(status);
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("Comment deleted successfully!");
+                Console.ResetColor();
+            }
+            Console.ReadKey(true);
+        }
 
     }
 }
