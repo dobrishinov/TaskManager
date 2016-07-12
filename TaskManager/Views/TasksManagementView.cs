@@ -251,23 +251,18 @@
                 Console.ReadKey(true);
                 return;
             }
-
+            int commentId = 2;
             TimeRepository timeRepository = new TimeRepository("time.txt");
             List<TimeEntity> times = timeRepository.GetAll(task.Id);
 
             CommentsRepository commentRepository = new CommentsRepository("comments.txt");
-            List<CommentEntity> comments = commentRepository.GetAll(taskId);
+            List<CommentEntity> comments = commentRepository.GetAll(task.Id);
 
-            StatusRepository statusRepository = new StatusRepository("status.txt");
-            //StatusEntity status = statusRepository.GetAll().Find(stat => stat.TaskId == commentId);
-            StatusEntity status = statusRepository.GetById(taskId);
-           
             Console.WriteLine("Task ID: " + task.Id);
             Console.WriteLine("Task Title: " + task.Title);
             Console.WriteLine("Tasks Content: " + task.Content);
             Console.WriteLine("Task create by: " + task.Creator);
             Console.WriteLine("############################################");
-            Console.WriteLine("Task status: " + status.Status);
             Console.WriteLine("Task response by: " + task.ResponsibleUsers);
             Console.WriteLine("############################################");
 
@@ -286,12 +281,19 @@
                 Console.ResetColor();
             }
 
+            StatusRepository statusRepository = new StatusRepository("status.txt");
+            //StatusEntity status = statusRepository.GetAll().Find(stat => stat.TaskId == commentId);
+            StatusEntity status = null;
+
             foreach (var comment in comments)
             {
+                status = statusRepository.GetAll().Find(stat => stat.CommentId == comment.Id);
                 Console.WriteLine("Comment ID: " + comment.Id);
                 Console.WriteLine("Comment: " + comment.Comment);
                 Console.WriteLine("Comment create at: " + comment.CreateDate);
-
+                Console.WriteLine("############################################");
+                Console.WriteLine("Task status: " + status.Status);
+                Console.WriteLine("############################################");
                 Console.BackgroundColor = ConsoleColor.DarkCyan;
                 Console.WriteLine("############################################");
                 Console.ResetColor();
@@ -371,7 +373,7 @@
             comment.CreatorId = Auth.LoggedUser.Id;
             comment.TaskId = commentId;
             comment.CreateDate = DateTime.Now;
-            status.TaskId = commentId;
+            status.CommentId = comment.Id;
 
             CommentsRepository commentRepository = new CommentsRepository("comments.txt");
             commentRepository.Save(comment);
@@ -521,8 +523,8 @@
 
             TaskEntity task = new TaskEntity();
             TimeEntity time = new TimeEntity();
-            //CommentEntity comment = new CommentEntity();
-            //StatusEntity status = new StatusEntity();
+            CommentEntity comment = new CommentEntity();
+            StatusEntity status = new StatusEntity();
 
             Console.Write("Add Task Title: ");
             task.Title = Console.ReadLine();
@@ -535,8 +537,8 @@
             Console.Write("Enter ID to Responsible User: ");
             task.ResponsibleUsers = int.Parse(Console.ReadLine());
 
-            //Console.Write("Task Status(Working/Idle/Done): ");
-            //status.Status = Console.ReadLine();
+            Console.Write("Task Status(Working/Idle/Done): ");
+            status.Status = Console.ReadLine();
 
             
             Console.Write("Working time in Hours: ");
@@ -546,12 +548,11 @@
 
             time.LastChange = DateTime.Now;
 
-            //Console.Write("Add Comment: ");
-            //comment.Comment = Console.ReadLine();
-            //comment.CreatorId = Auth.LoggedUser.Id;
-            //comment.TaskId= task.Id;
-            //comment.CreateDate = DateTime.Now;
-
+            Console.Write("Add Comment: ");
+            comment.Comment = Console.ReadLine();
+            comment.CreatorId = Auth.LoggedUser.Id;
+            comment.TaskId = task.Id;
+            comment.CreateDate = DateTime.Now;
 
             task.CreatorId = Auth.LoggedUser.Id;
             TasksRepository tasksRepository = new TasksRepository("tasks.txt");
@@ -561,9 +562,14 @@
             TimeRepository timeRepository = new TimeRepository("time.txt");
             timeRepository.Save(time);
 
-            //comment.TaskId = task.Id;
-            //CommentsRepository commentsRepository = new CommentsRepository("comments.txt");
-            //commentsRepository.Save(comment);
+            comment.TaskId = task.Id;
+            CommentsRepository commentsRepository = new CommentsRepository("comments.txt");
+            commentsRepository.Save(comment);
+
+            status.TaskId = task.Id;
+            status.CommentId = comment.Id;
+            StatusRepository statusRepository = new StatusRepository("status.txt");
+            statusRepository.Save(status);
 
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Task saved successfully!");

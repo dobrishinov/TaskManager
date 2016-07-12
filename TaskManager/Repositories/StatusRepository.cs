@@ -18,12 +18,14 @@
         protected override void WriteItemToStream(StreamWriter sw, StatusEntity item)
         {
             sw.WriteLine(item.TaskId);
+            sw.WriteLine(item.CommentId);
             sw.WriteLine(item.Status);
         }
 
         protected override void ReadItemFromStream(StreamReader sr, StatusEntity item)
         {
             item.TaskId = Convert.ToInt32(sr.ReadLine());
+            item.CommentId = Convert.ToInt32(sr.ReadLine());
             item.Status = sr.ReadLine();
         }
 
