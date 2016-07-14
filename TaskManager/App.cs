@@ -17,7 +17,7 @@
             else
             {
                 TasksManagementView tasksManagementView = new TasksManagementView();
-                tasksManagementView.Show();
+                tasksManagementView.ShowTaskManagement();
             }
         }
     }

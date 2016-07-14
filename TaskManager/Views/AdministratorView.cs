@@ -18,13 +18,13 @@
                         case AdministratorNum.UsersManagement:
                             {
                                 UsersManagementView userManagementView = new UsersManagementView();
-                                userManagementView.Show();
+                                userManagementView.ShowUserManagement();
                                 break;
                             }
                         case AdministratorNum.TasksManagement:
                             {
                                 TasksManagementView taskManagementView = new TasksManagementView();
-                                taskManagementView.Show();
+                                taskManagementView.ShowTaskManagement();
                                 break;
                             }
                         case AdministratorNum.Exit:

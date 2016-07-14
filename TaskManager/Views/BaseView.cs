@@ -11,11 +11,11 @@
 
     class BaseView
     {
-        public virtual void Show()
+        public virtual void ShowTaskManagement()
         {
             while (true)
             {
-                TaskManagementEnum choice = RenderMenu();
+                TaskManagementEnum choice = TaskRenderMenu();
 
                 try
                 {
@@ -77,7 +77,7 @@
 
         }
 
-        private TaskManagementEnum RenderMenu()
+        private TaskManagementEnum TaskRenderMenu()
         {
             while (true)
             {
@@ -167,27 +167,118 @@
             }
         }
 
+        public virtual void ShowUserManagement()
+        {
+            while (true)
+            {
+                UserManagementEnum choice = UserRenderMenu();
+
+                try
+                {
+                    switch (choice)
+                    {
+                        case UserManagementEnum.Select:
+                            {
+                                GetAll();
+                                break;
+                            }
+                        case UserManagementEnum.View:
+                            {
+                                View();
+                                break;
+                            }
+                        case UserManagementEnum.Insert:
+                            {
+                                Add();
+                                break;
+                            }
+                        case UserManagementEnum.Update:
+                            {
+                                Update();
+                                break;
+                            }
+                        case UserManagementEnum.Delete:
+                            {
+                                Delete();
+                                break;
+                            }
+                        case UserManagementEnum.Exit:
+                            {
+                                return;
+                            }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.Clear();
+                    Console.WriteLine(ex.Message);
+                    Console.ReadKey(true);
+                }
+            }
+        }
+
+        private UserManagementEnum UserRenderMenu()
+        {
+            while (true)
+            {
+                Console.Clear();
+
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("#############|User management|##############");
+                Console.ResetColor();
+
+                Console.WriteLine("[G]et all Users");
+                Console.WriteLine("[V]iew User");
+                Console.WriteLine("[A]dd User");
+                Console.WriteLine("[E]dit User");
+                Console.WriteLine("[D]elete User");
+                Console.WriteLine("E[x]it");
+
+                string choice = Console.ReadLine();
+                switch (choice.ToUpper())
+                {
+                    case "G":
+                        {
+                            return UserManagementEnum.Select;
+                        }
+                    case "V":
+                        {
+                            return UserManagementEnum.View;
+                        }
+                    case "A":
+                        {
+                            return UserManagementEnum.Insert;
+                        }
+                    case "E":
+                        {
+                            return UserManagementEnum.Update;
+                        }
+                    case "D":
+                        {
+                            return UserManagementEnum.Delete;
+                        }
+                    case "X":
+                        {
+                            return UserManagementEnum.Exit;
+                        }
+                    default:
+                        {
+                            Console.BackgroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Invalid Choice");
+                            Console.ReadKey(true);
+                            Console.ResetColor();
+                            break;
+                        }
+                }
+            }
+        }
+
         public virtual void GetAll()
         {
 
         }
 
         public virtual void View()
-        {
-
-        }
-
-        public virtual void CommentAdd()
-        {
-
-        }
-
-        public virtual void CommentEdit()
-        {
-
-        }
-
-        public virtual void CommentDelete()
         {
 
         }
@@ -203,6 +294,21 @@
         }
 
         public virtual void Delete()
+        {
+
+        }
+
+        public virtual void CommentAdd()
+        {
+
+        }
+
+        public virtual void CommentEdit()
+        {
+
+        }
+
+        public virtual void CommentDelete()
         {
 
         }

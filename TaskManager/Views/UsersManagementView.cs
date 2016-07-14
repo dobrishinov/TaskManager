@@ -6,115 +6,9 @@
     using TaskManager.Services;
     using System.Collections.Generic;
 
-    public class UsersManagementView
+    class UsersManagementView : BaseView
     {
-        public void Show()
-        {
-            while (true)
-            {
-                UserManagementEnum choice = RenderMenu();
-
-                try
-                {
-                    switch (choice)
-                    {
-                        case UserManagementEnum.Select:
-                            {
-                                GetAll();
-                                break;
-                            }
-                        case UserManagementEnum.View:
-                            {
-                                View();
-                                break;
-                            }
-                        case UserManagementEnum.Insert:
-                            {
-                                Add();
-                                break;
-                            }
-                        case UserManagementEnum.Update:
-                            {
-                                Update();
-                                break;
-                            }
-                        case UserManagementEnum.Delete:
-                            {
-                                Delete();
-                                break;
-                            }
-                        case UserManagementEnum.Exit:
-                            {
-                                return;
-                            }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.Clear();
-                    Console.WriteLine(ex.Message);
-                    Console.ReadKey(true);
-                }
-            }
-        }
-
-        private UserManagementEnum RenderMenu()
-        {
-            while (true)
-            {
-                Console.Clear();
-
-                Console.BackgroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("#############|User management|##############");
-                Console.ResetColor();
-
-                Console.WriteLine("[G]et all Users");
-                Console.WriteLine("[V]iew User");
-                Console.WriteLine("[A]dd User");
-                Console.WriteLine("[E]dit User");
-                Console.WriteLine("[D]elete User");
-                Console.WriteLine("E[x]it");
-
-                string choice = Console.ReadLine();
-                switch (choice.ToUpper())
-                {
-                    case "G":
-                        {
-                            return UserManagementEnum.Select;
-                        }
-                    case "V":
-                        {
-                            return UserManagementEnum.View;
-                        }
-                    case "A":
-                        {
-                            return UserManagementEnum.Insert;
-                        }
-                    case "E":
-                        {
-                            return UserManagementEnum.Update;
-                        }
-                    case "D":
-                        {
-                            return UserManagementEnum.Delete;
-                        }
-                    case "X":
-                        {
-                            return UserManagementEnum.Exit;
-                        }
-                    default:
-                        {
-                            Console.BackgroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Invalid Choice");
-                            Console.ReadKey(true);
-                            Console.ResetColor();
-                            break;
-                        }
-                }
-            }
-        }
-
-        private void GetAll()
+        public override void GetAll()
         {
             Console.Clear();
 
@@ -144,7 +38,7 @@
             Console.ReadKey(true);
         }
 
-        private void View()
+        public override void View()
         {
             Console.Clear();
 
@@ -184,7 +78,7 @@
             Console.ReadKey(true);
         }
 
-        private void Add()
+        public override void Add()
         {
             Console.Clear();
 
@@ -215,7 +109,7 @@
             Console.ReadKey(true);
         }
 
-        private void Update()
+        public override void Update()
         {
             Console.Clear();
 
@@ -281,7 +175,7 @@
             Console.ReadKey(true);
         }
 
-        private void Delete()
+        public override void Delete()
         {
             UsersRepository usersRepository = new UsersRepository("users.txt");
 
